@@ -16,8 +16,6 @@ from django.contrib.auth.models import User, Group
 from .models import Profile, Meeting, Attendee, Sentence
 
 def pipeline(speech_file):
-    '''
-
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
 
@@ -64,20 +62,6 @@ def pipeline(speech_file):
     words = []
     for word_info in words_info:
         words.append((word_info.word, word_info.speaker_tag))
-
-    '''
-
-    ### START DUMMY DATA ###
-
-    sentences = ['Hello, my name is Travis.',
-                 'Hello, this is Calvin.',
-                 'This is Joe.',
-                 'Wow, Joe.',
-                 "I know my voice is so sexy, isn't it?",
-                 "I have so much sex what is going on?"]
-    words = [('hello', 3), ('my', 3), ('name', 3), ('is', 3), ('Travis', 1), ('hello', 1), ('this', 1), ('is', 1), ('Calvin', 1), ('this', 2), ('is', 2), ('Joe', 2), ('wow', 3), ('Joe', 3), ('I', 3), ('know', 3), ('my', 3), ('voice', 3), ('is', 3), ('so', 3), ('sexy', 3), ("isn't", 3), ('it', 3), ('I', 3), ('have', 3), ('so', 3), ('much', 3), ('sex', 3), ('what', 1), ('is', 1), ('going', 1), ('on', 1)]
-
-    ### END DUMMY DATA ###
 
     start = 0
     labeled_sentences = []

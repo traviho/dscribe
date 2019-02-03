@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css'
 import axios from 'axios';
+import CSRFToken from './csrftoken';
 
 class Upload extends Component {
   state = {
@@ -22,10 +23,19 @@ class Upload extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="centered">
-          <input type="file" accept="audio/*" onChange={this.handleSelectFile} />
-          <button onClick={this.handleUpload}>Upload</button>
-        </div>
+         <form action="/audio" method="POST" enctype="multipart/form-data">
+            <CSRFToken />
+            <div className="file-field input-field">
+              <div className="btn">
+                <span>Select File</span>
+                <input type="file" name="audio" accept="audio/*" />
+              </div>
+              <div class="file-path-wrapper">
+                <input className="file-path validate" type="text" />
+              </div>
+            </div>
+            <input className='btn-large' type="submit" name="submit" value="audio" />
+        </form>
       </React.Fragment>
     );
   }

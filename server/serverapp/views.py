@@ -5,6 +5,7 @@ from .models import Meeting, Attendee, Sentence
 from rest_framework import viewsets
 from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, SentenceSerializer
 from rest_framework.views import APIView
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -109,3 +110,12 @@ class SentenceViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+@ensure_csrf_cookie
+def upload(request):
+    print("Hello")
+    if request.method == 'POST':
+        try:
+            pipeline(request.FILES['audio'])
+            print("SUCCESS!")
+        except:
+            print("ERROR!")

@@ -32,5 +32,6 @@ router.register(r'sentence', views.SentenceViewSet, base_name='sentence')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('audio', views.upload, name='upload')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
