@@ -12,9 +12,10 @@ from google.cloud.language import types
 import numpy as np
 import pandas as pd
 from nltk.corpus import stopwords
+import nltk
 
 from django.contrib.auth.models import User, Group
-from .models import Meeting, Attendee, Sentence
+from .models import Meeting, Attendee, Sentence, Profile
 
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
@@ -26,6 +27,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 def pipeline(speech_file):
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
+
+    '''
 
     ###########################
     ### read the audio file ###
@@ -71,7 +74,7 @@ def pipeline(speech_file):
     for word_info in words_info:
         words.append((word_info.word, word_info.speaker_tag))
 
-
+    '''
 
     ### START DUMMY DATA ###
 
@@ -155,13 +158,13 @@ def pipeline(speech_file):
     ### matching with user profiles ###
     ###################################
 
-    for name in names:  # for every owner in the meeting
-        owner = name[0]
-        first_name = name[1]
+    for k, v in names.items():  # for every owner in the meeting
+        owner = k
+        first_name = v
 
-        profile = Profile.objects.filter(first_name=first_name)
-        attendee = Attendee.objects.create(profile=profile.id,
-                                           meeting=meeting.id,
+        profile = Profile.objects.filter(first_name=first_name)[0]
+        attendee = Attendee.objects.create(user=profile.user,
+                                           meeting=meeting,
                                            text="",
                                            key_text="",
                                            word_count=0,
@@ -171,22 +174,27 @@ def pipeline(speech_file):
                                            num_questions=0)
         attendee.save()
 
+        nltk.download('stopwords')
+
         attendee_data = {
             'text': "",
             'key_text': "",
             'num_questions': 0
         }
         attendee_sentences = filter(lambda x: x[1] == owner, labeled_sentences)
-        for attendee_sentence in attendee_sentences:
-            no_punc = re.sub(r'[^\w\s]','', sentence)  # strip punctuation
+        for attendee_sentence_i in attendee_sentences:
+            attendee_sentence = attendee_sentence_i[0]
+            no_punc = re.sub(r'[^\w\s]','', attendee_sentence)  # strip punctuation
             num_words = len(no_punc.split(" "))
             key_words = [word for word in no_punc.split(" ") if word not in stopwords.words('english')]
 
+            print(attendee_data['text'])
+            print(attendee_sentence)
             attendee_data['text'] = attendee_data['text'] + " " + attendee_sentence
-            attendee_data['key_text'] = attendee_data['key_text'] + key_words
+            attendee_data['key_text'] = attendee_data['key_text'] + ' '.join(word for word in key_words)
 
             meeting_data['text'] = meeting_data['text'] + " " + attendee_sentence
-            meeting_data['key_text'] = meeting_data['key_text'] + key_words
+            meeting_data['key_text'] = meeting_data['key_text'] + ' '.join(word for word in key_words)
 
             #####################################
             ### sentiment analysis (sentence) ###
@@ -199,7 +207,7 @@ def pipeline(speech_file):
             type_ = enums.Document.Type.PLAIN_TEXT
             document = {'type': type_, 'content': content}
 
-            response = client.analyze_sentiment(document)
+            response = language_client.analyze_sentiment(document)
             sentiment = response.document_sentiment
 
             last_char = attendee_sentence[-1]
@@ -208,14 +216,15 @@ def pipeline(speech_file):
                 attendee_data['num_questions'] += 1
                 meeting_data['num_questions'] += 1
 
-            sentence = Sentence.objects.create(attendee=attendee.id,
+            sentence = Sentence.objects.create(attendee=attendee,
                                                text=attendee_sentence,
                                                key_text=' '.join(word for word in key_words),
                                                word_count=num_words,
                                                key_word_count=len(key_words),
                                                sentiment_score=sentiment.score,
                                                sentiment_magnitude=sentiment.magnitude,
-                                               question=is_question)
+                                               question=is_question,
+                                               begin_offset=0)
 
         attendee.text = attendee_data['text']
         attendee.key_text = ' '.join(word for word in attendee_data['key_text'])
@@ -233,7 +242,7 @@ def pipeline(speech_file):
         type_ = enums.Document.Type.PLAIN_TEXT
         document = {'type': type_, 'content': content}
 
-        response = client.analyze_sentiment(document)
+        response = language_client.analyze_sentiment(document)
         attendee_sentiment = response.document_sentiment
 
         attendee.sentiment_score = attendee_sentiment.score
@@ -241,27 +250,6 @@ def pipeline(speech_file):
         attendee.num_questions = attendee_data['num_questions']
 
         attendee.save()
-
-        #################################
-        ### topic modeling (attendee) ###
-        #################################
-
-        text = attendee_data['text']
-        if isinstance(text, six.binary_type):
-            text = text.decode('utf-8')
-
-        document = types.Document(
-            content=text.encode('utf-8'),
-            type=enums.Document.Type.PLAIN_TEXT)
-
-        categories = client.classify_text(document).categories
-
-        for category in categories:
-            print(u'=' * 20)
-            print(u'{:<16}: {}'.format('name', category.name))
-            print(u'{:<16}: {}'.format('confidence', category.confidence))
-
-        # TODO: need to decide on whether to store topics
 
     meeting.text = meeting_data['text']
     meeting.key_text = ' '.join(word for word in meeting_data['key_text'])
@@ -323,7 +311,6 @@ class MeetingViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = MeetingSerializer
-    pipeline('test.flac')
 
     def get_queryset(self):
         queryset = Meeting.objects.all()
@@ -394,10 +381,10 @@ class SentenceViewSet(viewsets.ModelViewSet):
 
 @ensure_csrf_cookie
 def upload(request):
-    print("Hello")
     if request.method == 'POST':
         try:
-            pipeline(request.FILES['audio'])
+            pipeline("C:/Users/calvi/Desktop/dscribe/server/serverapp/voice.flac")
+            # pipeline(request.FILES['audio'])
             print("SUCCESS!")
         except:
             print("ERROR!")
