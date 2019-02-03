@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BarWithTitle from '../charts/BarWithTitle.js';
+import PieWithTitle from '../charts/PieWithTitle.js';
 
 class Analytics extends Component {
   state = {
@@ -16,13 +17,34 @@ class Analytics extends Component {
             data: [1, 8, 4, 3]
           }
         ]
-      }
+    },
+    speakerPercentageData: {
+        labels: [
+            'Calvin',
+            'Richard',
+            'Wilson'
+        ],
+        datasets: [{
+            data: [.33, .34, .33],
+            backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+            ],
+            hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+            ]
+        }]
+    },
   };
 
   render() {
     return (
       <div>
         <BarWithTitle data={this.state.wordFrequencyData}/>
+        <PieWithTitle data={this.state.speakerPercentageData}/>
       </div>
     );
   }
