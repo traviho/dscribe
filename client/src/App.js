@@ -6,6 +6,7 @@ import Header from './components/Header.js'
 
 import microphone from './images/microphone.png';
 import upload from './images/upload.png';
+import Upload from './views/Upload';
 import analytics from './images/analytics.png';
 import Analytics from './views/Analytics';
 
@@ -37,15 +38,15 @@ class App extends Component {
           <br></br>
           <div className="row">
             <div className="col l2 offset-l3 s12">
-              <a onClick={() => this.changeScreen("microphone")}><img className="round icon" src={microphone} alt="record"></img></a>
+              <a onClick={() => this.changeScreen("microphone")}><img className="round icon clickable" src={microphone} alt="record"></img></a>
               <h4 align="center">Record</h4>
             </div>
             <div className="col l2 s12">
-              <a onClick={() => this.changeScreen("upload")}><img className="round icon" src={upload} alt="upload"></img></a>
+              <a onClick={() => this.changeScreen("upload")}><img className="round icon clickable" src={upload} alt="upload"></img></a>
               <h4 align="center">Upload</h4>
             </div>
             <div className="col l2 s12">
-              <a onClick={() => this.changeScreen("analytics")}><img className="round icon" src={analytics} alt="analytics"></img></a>
+              <a onClick={() => this.changeScreen("analytics")}><img className="round icon clickable" src={analytics} alt="analytics"></img></a>
               <h4 align="center">Analyze</h4>
             </div>
           </div>
@@ -56,6 +57,13 @@ class App extends Component {
         <React.Fragment>
           <Header />
           <Analytics />
+        </React.Fragment>
+      );
+    } else if (this.state.screen === "upload") {
+      return (
+        <React.Fragment>
+          <Header />
+          <Upload />
         </React.Fragment>
       );
     } else {
