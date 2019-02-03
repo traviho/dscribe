@@ -9,15 +9,15 @@ class Meeting(models.Model):
   date = models.DateField()
   name = models.CharField(max_length = 128)
 
-  MEETING_CATEGORIES = (
-    'Brainstorming',
-    'Planning',
-    'Training',
-    'Status Updating',
-    'Decision Making',
-    'Problem Solving',
-    'Reporting',
-    'Other'
-  )
-  category = models.CharField(choices = MEETING_CATEGORIES)
+  MEETING_CATEGORIES = [
+    ('Brainstorming','Brainstorming'),
+    ('Planning', 'Planning'),
+    ('Training', 'Training'),
+    ('Status Updating', 'Status Updating'),
+    ('Decision Making', 'Decision Making'),
+    ('Problem Solving', 'Problem Solving'),
+    ('Reporting', 'Reporting'),
+    ('Other', 'Other')
+  ]
+  category = models.CharField(choices = MEETING_CATEGORIES, max_length = 200)
 
