@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
+import {getColorUtil} from '../utils/GetColorUtil.js';
 import BarWithTitle from '../charts/BarWithTitle.js';
 import PieWithTitle from '../charts/PieWithTitle.js';
 import LineWithTitle from '../charts/LineWithTitle.js';
@@ -29,16 +30,8 @@ class Analytics extends Component {
         ],
         datasets: [{
             data: [.33, .34, .33],
-            backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56'
-            ],
-            hoverBackgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56'
-            ]
+            backgroundColor: getColorUtil(3),
+            hoverBackgroundColor: getColorUtil(3)
         }]
     },
     // timeSentimentData: {
