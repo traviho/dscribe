@@ -20,18 +20,23 @@ class Upload extends Component {
   render() {
     return (
       <React.Fragment>
-         <form onSubmit={this.handleSubmit}>
-            <div className="file-field input-field">
-              <div className="btn">
-                <span>Select File</span>
-                <input type="file" name="audio" accept="audio/*" id="afile" />
-              </div>
-              <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-              </div>
-            </div>
-            <input className='btn-large' type="submit" name="submit" value="upload" />
-        </form>
+        <br></br>
+        <div className="row">
+          <div className="col l6 offset-l3 s12">
+             <form onSubmit={this.handleSubmit}>
+                <div className="file-field input-field">
+                  <div className="btn">
+                    <span>Select File</span>
+                    <input type="file" name="audio" accept="audio/*" id="afile" />
+                  </div>
+                  <div className="file-path-wrapper">
+                    <input className="file-path validate" type="text" />
+                  </div>
+                </div>
+                <input className='btn-large' type="submit" name="submit" value="upload" />
+            </form>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

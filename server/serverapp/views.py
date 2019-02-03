@@ -24,11 +24,10 @@ from rest_framework.views import APIView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 
-
 def pipeline(speech_file):
-    # Meeting.objects.all().delete()
-    # Attendee.objects.all().delete()
-    # Sentence.objects.all().delete()
+    Meeting.objects.all().delete()
+    Attendee.objects.all().delete()
+    Sentence.objects.all().delete()
 
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
@@ -178,9 +177,12 @@ def pipeline(speech_file):
         attendee_data = {
             'text': "",
             'key_text': "",
+            'word_count': 0,
+            'key_word_count': 0,
             'num_questions': 0
         }
-        attendee_sentences = filter(lambda x: x[1] == owner, labeled_sentences)
+        attendee_sentences = list(filter(lambda x: x[1] == owner, labeled_sentences))
+
         for attendee_sentence_i in attendee_sentences:
             attendee_sentence = attendee_sentence_i[0]
             no_punc = re.sub(r'[^\w\s]','', attendee_sentence)  # strip punctuation
@@ -188,7 +190,7 @@ def pipeline(speech_file):
             key_words = [word for word in no_punc.split(" ") if word not in stopwords.words('english')]
 
             attendee_data['text'] = attendee_data['text'] + " " + attendee_sentence
-            attendee_data['key_text'] = attendee_data['key_text'] + ' '.join(word for word in key_words)
+            attendee_data['key_text'] = attendee_data['key_text'] + " " + ' '.join(word for word in key_words)
 
             meeting_data['text'] = meeting_data['text'] + " " + attendee_sentence
             meeting_data['key_text'] = meeting_data['key_text'] + " " + ' '.join(word for word in key_words)
@@ -213,6 +215,9 @@ def pipeline(speech_file):
                 attendee_data['num_questions'] += 1
                 meeting_data['num_questions'] += 1
 
+            attendee_data['word_count'] += num_words
+            attendee_data['key_word_count'] += len(key_words)
+
             sentence = Sentence.objects.create(attendee=attendee,
                                                text=attendee_sentence,
                                                key_text=' '.join(word for word in key_words),
@@ -225,8 +230,8 @@ def pipeline(speech_file):
 
         attendee.text = attendee_data['text']
         attendee.key_text = attendee_data['key_text']
-        attendee.word_count = len(re.sub(r'[^\w\s]','', attendee_data['text']))
-        attendee.key_word_count = len(attendee_data['key_text'])
+        attendee.word_count = attendee_data['word_count']
+        attendee.key_word_count = attendee_data['key_word_count']
 
         #####################################
         ### sentiment analysis (attendee) ###
