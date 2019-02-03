@@ -17,6 +17,16 @@ div.chart-container {
   height: 400px;
 }
 
+div.side-panel {
+  width: 25vw;
+  height: 100vh;
+}
+
+div.main-panel {
+  width: 75vw;
+  height: 100vh;
+}
+
 .tabs .tab a:hover, .tabs .tab a.active {
   color: #000000 !important;
 }

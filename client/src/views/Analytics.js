@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
+import Sidebar from "react-sidebar";
 import BarWithTitle from '../charts/BarWithTitle.js';
 import PieWithTitle from '../charts/PieWithTitle.js';
 import LineWithTitle from '../charts/LineWithTitle.js';
@@ -107,8 +108,13 @@ class Analytics extends Component {
 
   render() {
     return (
-      <div>
-        <Select
+      <React.Fragment>
+      <div className="row">
+        <div className="col l5 offset-l1 s0">
+          <h2>Meeting Analytics</h2>
+        </div>
+        <div className="col l2 offset-l1 s12" style={{paddingTop: '40px'}}>
+          <Select
             value={this.state.selectedPerson}
             onChange={this.handlePersonSelectChange}
             isMulti={true}
@@ -119,23 +125,37 @@ class Analytics extends Component {
                 { value: 'Travis', label: 'Travis' }
             ]}
             placeholder="Enter person(s)"
-        />
-        <Select
-            value={this.state.selectedMeeting}
-            onChange={this.handleMeetingSelectChange}
-            isMulti={true}
-            options={[
-                { value: 'Meeting 2/1/17 5pm', label: 'Meeting 2/1/17 5pm' },
-                { value: 'Meeting 1/12/17 2pm', label: 'Meeting 1/12/17 2pm' },
-                { value: 'Meeting 2/1/16 5pm', label: 'Meeting 2/1/16 5pm' }
-            ]}
-            placeholder="Enter meeting(s)"
-        />
-        <BarWithTitle data={this.state.wordFrequencyData}/>
-        <PieWithTitle data={this.state.speakerPercentageData}/>
-        <LineWithTitle data={this.state.timeSentimentData}/>
-        <BubbleWithTitle data={this.state.sentimentQuestionFrequencySpeechPercentageData}/>
+          />
+        </div>
+        <div className="col l2 s12" style={{paddingTop: '40px'}}>
+          <Select
+              value={this.state.selectedMeeting}
+              onChange={this.handleMeetingSelectChange}
+              isMulti={true}
+              options={[
+                  { value: 'Meeting 2/1/17 5pm', label: 'Meeting 2/1/17 5pm' },
+                  { value: 'Meeting 1/12/17 2pm', label: 'Meeting 1/12/17 2pm' },
+                  { value: 'Meeting 2/1/16 5pm', label: 'Meeting 2/1/16 5pm' }
+              ]}
+              placeholder="Enter meeting(s)"
+          />
+        </div>
       </div>
+      <br />
+      <div className="row">
+        <div className="col l8 offset-l2 s12">
+          <BarWithTitle data={this.state.wordFrequencyData} title="Keyword Frequency" />
+        </div>
+      </div>
+      <br />
+      <div className="row">
+        <div className="col l8 offset-l2 s12">
+          <PieWithTitle data={this.state.speakerPercentageData} title="Speaker Percentage" />
+          {/* <LineWithTitle data={this.state.timeSentimentData}/>
+          <BubbleWithTitle data={this.state.sentimentQuestionFrequencySpeechPercentageData}/> */}
+        </div>
+      </div>
+      </React.Fragment>
     );
   }
 }
