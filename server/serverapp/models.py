@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
-  #voice_sample
+  first_name = CharField(max_length = 256)
 
 class Meeting(models.Model):
-  date = models.DateField()
+  date = models.DateField(_("Date"), default=datetime.date.today)
   name = models.CharField(max_length = 256)
   description = models.TextField()
   text = models.TextField()
@@ -45,7 +46,7 @@ class Sentence(models.Model):
   key_text = models.TextField()
   begin_offset = models.PositiveSmallIntegerField()
   word_count = models.PositiveSmallIntegerField()
-  keyWord_count = models.PositiveSmallIntegerField()
+  key_word_count = models.PositiveSmallIntegerField()
   sentiment_score = models.DecimalField(max_digits = 2, decimal_places = 1)
   sentiment_magnitude = models.DecimalField(max_digits = 2, decimal_places = 1)
   question = models.BooleanField()
