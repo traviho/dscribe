@@ -37,7 +37,7 @@ class MeetingViewSet(viewsets.ModelViewSet):
     ex: i query form localhost:8000/attendee/1,2,3,4 and get the json representing what was said by attendees 1,2,3,4
     for a given meeting
 
-    each attendee has data for how many words they spoke, so that can just be divided by total word counts of the meeting       
+    each attendee has data for how many words they spoke, so that can just be divided by total word counts of the meeting
     """
 
     serializer_class = MeetingSerializer

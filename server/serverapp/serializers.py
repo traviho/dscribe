@@ -61,5 +61,5 @@ class AttendeeSerializer(serializers.HyperlinkedModelSerializer):
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sentence
-        fields = ('url', 'text', 'key_text', 'begin_offset', 'word_count', 'keyWord_count', 'sentiment_score',
+        fields = ('url', 'text', 'key_text', 'begin_offset', 'word_count', 'key_word_count', 'sentiment_score',
                   'sentiment_magnitude', 'question')
