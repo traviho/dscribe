@@ -29,7 +29,7 @@ class Meeting(models.Model):
   category = models.CharField(choices = MEETING_CATEGORIES, max_length = 200)
 
 class Attendee(models.Model):
-  profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
   text = models.TextField()
   key_text = models.TextField()

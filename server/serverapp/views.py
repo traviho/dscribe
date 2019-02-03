@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 from django.contrib.auth.models import User, Group
-from .models import Meeting, MeetingMember, Profile
+from .models import Meeting, Attendee, Profile, Sentence
 from rest_framework import viewsets
-from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, MeetingMemberSerializer, ProfileSerializer
+from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, ProfileSerializer, SentenceSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -35,9 +35,31 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-class MeetingMemberViewSet(viewsets.ModelViewSet):
+class AttendeeViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows meeting members to be viewed or edited
+    API endpoint that allows attendees of a meeting to be viewed or edited
     """
-    queryset = MeetingMember.objects.all()
-    serializer_class = MeetingMemberSerializer
+
+    serializer_class = AttendeeSerializer
+
+    def get_queryset(self):
+        queryset = Attendee.objects.all()
+        target_user = self.request.query_params.get('user', None)
+        target_meeting = self.request.query_params.get('meeting', None)
+
+        print(target_meeting)
+        if target_user is not None:
+            queryset = queryset.filter(user = target_user)
+
+        if target_meeting is not None:
+            queryset = queryset.filter(meeting = target_meeting)
+
+        return queryset
+
+
+class SentenceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows sentences to be viewed or changed
+    """
+    queryset = Sentence.objects.all()
+    serializer_class =  SentenceSerializer
