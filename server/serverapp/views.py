@@ -25,9 +25,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 
 def pipeline(speech_file):
-    Meeting.objects.all().delete()
-    Attendee.objects.all().delete()
-    Sentence.objects.all().delete()
+    # Meeting.objects.all().delete()
+    # Attendee.objects.all().delete()
+    # Sentence.objects.all().delete()
 
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
