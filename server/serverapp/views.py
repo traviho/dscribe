@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 from django.contrib.auth.models import User, Group
-from .models import Meeting, MeetingMember, Profile
+from .models import Meeting, Attendee, Sentence
 from rest_framework import viewsets
-from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, MeetingMemberSerializer, ProfileSerializer
+from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, SentenceSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -28,16 +28,40 @@ class MeetingViewSet(viewsets.ModelViewSet):
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
-class ProfileViewSet(viewsets.ModelViewSet):
+class AttendeeViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows profiles to be viewed or edited
+    API endpoint that allows attendees of a meeting to be viewed or edited
     """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
 
-class MeetingMemberViewSet(viewsets.ModelViewSet):
+    serializer_class = AttendeeSerializer
+
+    def get_queryset(self):
+        queryset = Attendee.objects.all()
+        target_user = self.request.query_params.get('user', None)
+        target_meeting = self.request.query_params.get('meeting', None)
+
+        if target_user is not None:
+            queryset = queryset.filter(user = target_user)
+
+        if target_meeting is not None:
+            queryset = queryset.filter(meeting = target_meeting)
+
+        return queryset
+
+
+class SentenceViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows meeting members to be viewed or edited
+    API endpoint that allows sentences to be viewed or changed
     """
-    queryset = MeetingMember.objects.all()
-    serializer_class = MeetingMemberSerializer
+
+    serializer_class = SentenceSerializer
+
+    def get_queryset(self):
+        queryset = Sentence.objects.all()
+        target_attendee = self.request.query_params.get('attendee', None)
+
+        if target_attendee is not None:
+            queryset = queryset.filter(attendee = target_attendee)
+
+        return queryset
+
