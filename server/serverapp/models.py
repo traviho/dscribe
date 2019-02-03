@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
-  #voice_sample
-
 class Meeting(models.Model):
   date = models.DateField()
   name = models.CharField(max_length = 256)
@@ -29,7 +25,7 @@ class Meeting(models.Model):
   category = models.CharField(choices = MEETING_CATEGORIES, max_length = 200)
 
 class Attendee(models.Model):
-  profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
   text = models.TextField()
   key_text = models.TextField()
