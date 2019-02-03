@@ -4,10 +4,10 @@ import datetime
 
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
-  first_name = CharField(max_length = 256)
+  first_name = models.CharField(max_length = 256)
 
 class Meeting(models.Model):
-  date = models.DateField(_("Date"), default=datetime.date.today)
+  date = models.DateField(default=datetime.date.today)
   name = models.CharField(max_length = 256)
   description = models.TextField()
   text = models.TextField()
