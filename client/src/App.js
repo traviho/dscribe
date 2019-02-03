@@ -4,7 +4,8 @@ import './libraries/materialize.min.css';
 
 import Header from './components/Header.js'
 
-import microphone from './images/microphone.png';
+import record from './images/record.png';
+import Record from './views/Record';
 import upload from './images/upload.png';
 import Upload from './views/Upload';
 import analytics from './images/analytics.png';
@@ -38,7 +39,7 @@ class App extends Component {
           <br></br>
           <div className="row">
             <div className="col l2 offset-l3 s12">
-              <a onClick={() => this.changeScreen("microphone")}><img className="round icon clickable" src={microphone} alt="record"></img></a>
+              <a onClick={() => this.changeScreen("record")}><img className="round icon clickable" src={record} alt="record"></img></a>
               <h4 align="center">Record</h4>
             </div>
             <div className="col l2 s12">
@@ -52,11 +53,11 @@ class App extends Component {
           </div>
         </React.Fragment>
       );
-    } else if (this.state.screen === "analytics") {
+    } else if (this.state.screen === "record") {
       return (
         <React.Fragment>
           <Header />
-          <Analytics />
+          <Record />
         </React.Fragment>
       );
     } else if (this.state.screen === "upload") {
@@ -64,6 +65,13 @@ class App extends Component {
         <React.Fragment>
           <Header />
           <Upload />
+        </React.Fragment>
+      );
+    } else if (this.state.screen === "analytics") {
+      return (
+        <React.Fragment>
+          <Header />
+          <Analytics />
         </React.Fragment>
       );
     } else {

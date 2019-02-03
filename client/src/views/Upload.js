@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css'
 
-class Analytics extends Component {
+class Upload extends Component {
   state = {
     selectedFile: null
   }
@@ -17,7 +17,7 @@ class Analytics extends Component {
   render() {
     return (
       <React.Fragment>
-        <div class="centered">
+        <div className="centered">
           <input type="file" accept="audio/*" onChange={this.handleSelectFile} />
           <button onClick={this.handleUpload}>Upload</button>
         </div>
@@ -26,4 +26,4 @@ class Analytics extends Component {
   }
 }
 
-export default Analytics;
+export default Upload;
