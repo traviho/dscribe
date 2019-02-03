@@ -7,6 +7,7 @@ import Header from './components/Header.js'
 import microphone from './images/microphone.png';
 import upload from './images/upload.png';
 import analytics from './images/analytics.png';
+import Analytics from './views/Analytics';
 
 class App extends Component {
   state = {
@@ -53,7 +54,8 @@ class App extends Component {
     } else if (this.state.screen === "analytics") {
       return (
         <React.Fragment>
-          <Header />Hi
+          <Header />
+          <Analytics />
         </React.Fragment>
       );
     } else {
