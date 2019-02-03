@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 import BarWithTitle from '../charts/BarWithTitle.js';
 import PieWithTitle from '../charts/PieWithTitle.js';
 import LineWithTitle from '../charts/LineWithTitle.js';
@@ -91,12 +92,45 @@ class Analytics extends Component {
             data: [{x:2,y:0.1,r:40}, {x:3,y:0.7,r:25}]
           }
         ]
-      }
+      },
+      selectedMeeting: null,
+      selectedPerson: null,
   };
+
+  handlePersonSelectChange = (selectedPerson) => {
+    this.setState({ selectedPerson: selectedPerson });
+  }
+
+  handleMeetingSelectChange = (selectedMeeting) => {
+    this.setState({ selectedMeeting: selectedMeeting });
+  }
 
   render() {
     return (
       <div>
+        <Select
+            value={this.state.selectedPerson}
+            onChange={this.handlePersonSelectChange}
+            isMulti={true}
+            options={[
+                { value: 'Richard', label: 'Richard' },
+                { value: 'Wilson', label: 'Wilson' },
+                { value: 'Calvin', label: 'Calvin' },
+                { value: 'Travis', label: 'Travis' }
+            ]}
+            placeholder="Enter person(s)"
+        />
+        <Select
+            value={this.state.selectedMeeting}
+            onChange={this.handleMeetingSelectChange}
+            isMulti={true}
+            options={[
+                { value: 'Meeting 2/1/17 5pm', label: 'Meeting 2/1/17 5pm' },
+                { value: 'Meeting 1/12/17 2pm', label: 'Meeting 1/12/17 2pm' },
+                { value: 'Meeting 2/1/16 5pm', label: 'Meeting 2/1/16 5pm' }
+            ]}
+            placeholder="Enter meeting(s)"
+        />
         <BarWithTitle data={this.state.wordFrequencyData}/>
         <PieWithTitle data={this.state.speakerPercentageData}/>
         <LineWithTitle data={this.state.timeSentimentData}/>
