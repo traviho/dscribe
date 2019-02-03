@@ -322,7 +322,7 @@ class MeetingViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = MeetingSerializer
-    pipeline('test.flac')
+    #pipeline("test.flac")
 
     def get_queryset(self):
         queryset = Meeting.objects.all()
