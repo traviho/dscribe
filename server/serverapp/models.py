@@ -9,6 +9,7 @@ class Meeting(models.Model):
   date = models.DateField()
   name = models.CharField(max_length = 128)
   audio = models.FileField(upload_to='meetingaudio/')
+  text = models.TextField()
 
   MEETING_CATEGORIES = (
     'Brainstorming',
@@ -25,3 +26,6 @@ class Meeting(models.Model):
 class MeetingMember(models.Model):
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
   meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+  text = models.TextField()
+
+# Models for results
