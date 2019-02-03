@@ -46,7 +46,7 @@ class App extends Component {
             </div>
             <div className="col l2 s12">
               <a onClick={() => this.changeScreen("analytics")}><img className="round icon" src={analytics} alt="analytics"></img></a>
-              <h4 align="center">Analytics</h4>
+              <h4 align="center">Analyze</h4>
             </div>
           </div>
         </React.Fragment>
