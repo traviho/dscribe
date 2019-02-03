@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Analytics from './views/Analytics.js';
 import './App.css';
 import './libraries/materialize.min.css';
 
@@ -53,7 +54,8 @@ class App extends Component {
     } else if (this.state.screen === "analytics") {
       return (
         <React.Fragment>
-          <Header />Hi
+          <Header />
+          <Analytics />
         </React.Fragment>
       );
     } else {
