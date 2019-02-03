@@ -7,6 +7,7 @@ class Record extends Component {
     audio: null
   }
 
+  /* https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b */
   recordAudio = () =>
     new Promise(async resolve => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -25,7 +26,7 @@ class Record extends Component {
             const play = () => audio.play();
             this.state.audio = audio;
             console.log(this.state.audio);
-            
+
             resolve({ audioBlob, audioUrl, play });
           });
           mediaRecorder.stop();

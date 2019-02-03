@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css'
+import axios from axios;
 
 class Upload extends Component {
   state = {
@@ -11,7 +12,11 @@ class Upload extends Component {
   }
 
   handleUpload = () => {
-    console.log("Upload");
+    const upload = new FormData()
+    const endpoint = "/audio"
+
+    upload.append('file', this.state.selectedFile, this.state.selectedFile.name)
+    axios.post(endpoint, upload);
   }
 
   render() {
