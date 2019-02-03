@@ -8,16 +8,20 @@ class Profile(models.Model):
 class Meeting(models.Model):
   date = models.DateField()
   name = models.CharField(max_length = 128)
+  audio = models.FileField(upload_to='meetingaudio/')
 
-  MEETING_CATEGORIES = [
-    ('Brainstorming','Brainstorming'),
-    ('Planning', 'Planning'),
-    ('Training', 'Training'),
-    ('Status Updating', 'Status Updating'),
-    ('Decision Making', 'Decision Making'),
-    ('Problem Solving', 'Problem Solving'),
-    ('Reporting', 'Reporting'),
-    ('Other', 'Other')
-  ]
-  category = models.CharField(choices = MEETING_CATEGORIES, max_length = 200)
+  MEETING_CATEGORIES = (
+    'Brainstorming',
+    'Planning',
+    'Training',
+    'Status Updating',
+    'Decision Making',
+    'Problem Solving',
+    'Reporting',
+    'Other'
+  )
+  category = models.CharField(choices = MEETING_CATEGORIES)
 
+class MeetingMember(models.Model):
+  profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
