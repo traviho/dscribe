@@ -1,41 +1,64 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './libraries/materialize.min.css';
+
+import Header from './components/Header.js'
+
+import microphone from './images/microphone.png';
+import upload from './images/upload.png';
+import analytics from './images/analytics.png';
 
 class App extends Component {
-state = {
-    data: null
+  state = {
+    screen: "home"
   };
 
   componentDidMount() {
-      // Call our fetch function below once the component mounts
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express })).then((data) => console.log(data))
-      .catch(err => console.log(err));
+    // Call our fetch function below once the component mounts
   }
-  // sample backend API call
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
-    const body = await response.json();
-    console.log(body);
 
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  };
+  changeScreen(sStr) {
+    console.log(sStr);
+    this.setState({screen: sStr});
+  }
 
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        // Render the newly fetched data inside of this.state.data 
-        <p className="App-intro">{this.state.data}</p>
-      </div>
-    );
+    if (this.state.screen === "home") {
+      return (
+        <React.Fragment>
+          <br></br>
+          <br></br>
+          <div className="row">
+            <div className="col l6 s10 offset-l3 offset-s1">
+              <h1 align="center">dscribe</h1>
+            </div>
+          </div>
+          <br></br>
+          <div className="row">
+            <div className="col l2 offset-l3 s12">
+              <a onClick={() => this.changeScreen("microphone")}><img className="round icon" src={microphone} alt="record"></img></a>
+              <h4 align="center">Record</h4>
+            </div>
+            <div className="col l2 s12">
+              <a onClick={() => this.changeScreen("upload")}><img className="round icon" src={upload} alt="upload"></img></a>
+              <h4 align="center">Upload</h4>
+            </div>
+            <div className="col l2 s12">
+              <a onClick={() => this.changeScreen("analytics")}><img className="round icon" src={analytics} alt="analytics"></img></a>
+              <h4 align="center">Analytics</h4>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    } else if (this.state.screen === "analytics") {
+      return (
+        <React.Fragment>
+          <Header />Hi
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

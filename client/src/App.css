@@ -1,32 +1,146 @@
-.App {
-  text-align: center;
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "https://fonts.googleapis.com/css?family=Quicksand";
+
+body {
+  font-family: 'Quicksand', sans-serif;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.container {
+  width: 80% !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+div.card-container {
+  padding: 25px;
+}
+
+div.chart-container {
+  height: 400px;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+  color: #000000 !important;
+}
+
+.tabs .tab a {
+  color: #000000 !important;
+  background-color: #f9f9f9 !important;
+}
+
+.tabs .indicator {
+  background-color: #000000 !important;
+}
+
+.no-top {
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+
+.no-bottom {
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.heading {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.card-heading {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-top: -10px !important;
+}
+
+.statistic {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+img.round {
+  border-radius: 50%;
+  border: 3px solid black;
+}
+
+img.icon {
+  max-height: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-white {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.material-icons.md-lg {
+  font-size: 32px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.navbar-set {
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+  margin-left: 3px !important;
+  margin-right: 3px !important;
+}
+
+.tab-container {
+  position: relative;
+}
+
+.tab-title {
+  display:inline-block;
+  font-size: 1.2em;
+  padding: 15px;
+  width: 67%;
+}
+
+.user-link {
+  color: inherit;
+}
+
+.user-link:hover {
+  text-decoration: underline;
+}
+
+.offset-left {
+  margin-left: 15px;
+}
+
+.page-offset-left {
+  padding-left: 45px !important;
+}
+
+tr:hover {
+  cursor: pointer;
+}
+
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+button-center {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 992px) {
+  .page-offset-left {
+    padding-left: .75rem !important;
   }
-  to {
-    transform: rotate(360deg);
+  .mobile-buttons {
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .mobile-container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
   }
 }
