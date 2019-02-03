@@ -232,15 +232,6 @@ def pipeline(speech_file):
             content=text.encode('utf-8'),
             type=enums.Document.Type.PLAIN_TEXT)
 
-        categories = client.classify_text(document).categories
-
-        for category in categories:
-            print(u'=' * 20)
-            print(u'{:<16}: {}'.format('name', category.name))
-            print(u'{:<16}: {}'.format('confidence', category.confidence))
-
-        # TODO: need to decide on whether to store topics
-
     meeting.text = meeting_data['text']
     meeting.key_text = ' '.join(word for word in meeting_data['key_text'])
     meeting.word_count = len(re.sub(r'[^\w\s]','', meeting_data['text']))

@@ -20,8 +20,7 @@ class App extends Component {
     // Call our fetch function below once the component mounts
   }
 
-  changeScreen(sStr) {
-    console.log(sStr);
+  changeScreen = (sStr) => {
     this.setState({screen: sStr});
   }
 
@@ -64,7 +63,7 @@ class App extends Component {
       return (
         <React.Fragment>
           <Header />
-          <Upload />
+          <Upload screenHandler={this.changeScreen} />
         </React.Fragment>
       );
     } else if (this.state.screen === "analytics") {

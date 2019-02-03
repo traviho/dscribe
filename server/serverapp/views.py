@@ -22,21 +22,22 @@ from rest_framework import viewsets
 from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, SentenceSerializer
 from rest_framework.views import APIView
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import HttpResponse
 
 
 def pipeline(speech_file):
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
 
-    '''
-
     ###########################
     ### read the audio file ###
     ###########################
 
     # speech_file = 'voice.flac'
-    with io.open(speech_file, 'rb') as audio_file:
-        content = audio_file.read()
+    #with io.open(speech_file, 'rb') as audio_file:
+    #    content = audio_file.read()
+
+    content = speech_file.read()
 
     ###########################################
     ### annotate sentences with punctuation ###
@@ -73,8 +74,6 @@ def pipeline(speech_file):
     words = []
     for word_info in words_info:
         words.append((word_info.word, word_info.speaker_tag))
-
-    '''
 
     ### START DUMMY DATA ###
 
@@ -267,7 +266,7 @@ def pipeline(speech_file):
     type_ = enums.Document.Type.PLAIN_TEXT
     document = {'type': type_, 'content': content}
 
-    response = client.analyze_sentiment(document)
+    response = language_client.analyze_sentiment(document)
     meeting_sentiment = response.document_sentiment
 
     meeting.sentiment_score = meeting_sentiment.score
@@ -379,12 +378,11 @@ class SentenceViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def upload(request):
     if request.method == 'POST':
-        try:
-            pipeline("C:/Users/calvi/Desktop/dscribe/server/serverapp/voice.flac")
-            # pipeline(request.FILES['audio'])
-            print("SUCCESS!")
-        except:
-            print("ERROR!")
+        #pipeline("C:/Users/calvi/Desktop/dscribe/server/serverapp/voice.flac")
+        pipeline(request.FILES['audio'])
+    return HttpResponse(status=204)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import {getColorUtil} from '../utils/GetColorUtil.js';
-import BarWithTitle from '../charts/BarWithTitle.js';
+import BarWithTitle from '../charts/BarWithStyles.js';
 import PieWithTitle from '../charts/PieWithTitle.js';
 import LineWithTitle from '../charts/LineWithTitle.js';
 import BubbleWithTitle from '../charts/BubbleWithTitle.js';
@@ -13,6 +13,7 @@ class Analytics extends Component {
       name: "",
       value: 0,
       date: "",
+      key_word_dict: {}
     }
 
     user {
@@ -112,10 +113,12 @@ class Analytics extends Component {
   }
 
   handlePersonSelectChange = (selectedPerson) => {
+    console.log(selectedPerson);
     this.setState({ selectedPerson: selectedPerson });
   }
 
   handleMeetingSelectChange = (selectedMeeting) => {
+    console.log(selectedMeeting);
     this.setState({ selectedMeeting: selectedMeeting });
   }
 
@@ -140,6 +143,7 @@ class Analytics extends Component {
         name: meetingJSON.name,
         value: meetingJSON.meeting_id,
         date: meetingJSON.date,
+        key_word_dict: meetingJSON.key_word_dict,
       };
     });
     console.log(meetings);
@@ -159,51 +163,72 @@ class Analytics extends Component {
     return this.state.meetings.map(meetingObj => {
       return {
         value: meetingObj.value,
-        label: meetingObj.name + meetingObj.date
+        label: meetingObj.name + " " + meetingObj.date
       }
     })
+  }
+
+  getAggregateKeywordFrequencyFromMeetings() {
+    let keyCounts = {};
+    for (var keyMeeting in this.state.meetings) {
+      let meeting = this.state.meetings[keyMeeting]
+      for (var keyWord in meeting.key_word_dict) {
+        keyCounts[keyWord] = keyCounts[keyWord] == undefined ? meeting.key_word_dict[keyWord] : keyCounts[keyWord] + meeting.key_word_dict[keyWord];
+      }
+    }
+    return {
+      labels: Object.keys(keyCounts),
+      datasets: [
+        {
+          label: "Word Frequency",
+          data: Object.keys(keyCounts).map(function(key){
+            return keyCounts[key];
+          }),
+        }
+      ]
+    }
   }
 
   render() {
     return (
       <React.Fragment>
-      <div className="row">
-        <div className="col l5 offset-l1 s0">
-          <h2>Meeting Analytics</h2>
-        </div>
-        <div className="col l2 offset-l1 s12" style={{paddingTop: '40px'}}>
-          <Select
-            value={this.state.selectedPerson}
-            onChange={this.handlePersonSelectChange}
-            isMulti={true}
-            options={this.getSelectionFromUsersState()}
-            placeholder="Enter person(s)"
-          />
-        </div>
-        <div className="col l2 s12" style={{paddingTop: '40px'}}>
-          <Select
-              value={this.state.selectedMeeting}
-              onChange={this.handleMeetingSelectChange}
+        <div className="row">
+          <div className="col l5 offset-l1 s0">
+            <h2>Meeting Analytics</h2>
+          </div>
+          <div className="col l2 offset-l1 s12" style={{paddingTop: '40px'}}>
+            <Select
+              value={this.state.selectedPerson}
+              onChange={this.handlePersonSelectChange}
               isMulti={true}
-              options={this.getSelectionFromMeetingState()}
-              placeholder="Enter meeting(s)"
-          />
+              options={this.getSelectionFromUsersState()}
+              placeholder="Enter person(s)"
+            />
+          </div>
+          <div className="col l2 s12" style={{paddingTop: '40px'}}>
+            <Select
+                value={this.state.selectedMeeting}
+                onChange={this.handleMeetingSelectChange}
+                isMulti={true}
+                options={this.getSelectionFromMeetingState()}
+                placeholder="Enter meeting(s)"
+            />
+          </div>
         </div>
-      </div>
-      <br />
-      <div className="row">
-        <div className="col l8 offset-l2 s12">
-          <BarWithTitle data={this.state.wordFrequencyData} title="Keyword Frequency" />
+        <br />
+        <div className="row">
+          <div className="col l8 offset-l2 s12">
+            <BarWithTitle data={this.getAggregateKeywordFrequencyFromMeetings()} title="Keyword Frequency" />
+          </div>
         </div>
-      </div>
-      <br />
-      <div className="row">
-        <div className="col l8 offset-l2 s12">
-          <PieWithTitle data={this.state.speakerPercentageData} title="Speaker Percentage" />
-          {/* <LineWithTitle data={this.state.timeSentimentData}/>
-          <BubbleWithTitle data={this.state.sentimentQuestionFrequencySpeechPercentageData}/> */}
+        <br />
+        <div className="row">
+          <div className="col l8 offset-l2 s12">
+            <PieWithTitle data={this.state.speakerPercentageData} title="Speaker Percentage" />
+            {/* <LineWithTitle data={this.state.timeSentimentData}/>
+            <BubbleWithTitle data={this.state.sentimentQuestionFrequencySpeechPercentageData}/> */}
+          </div>
         </div>
-      </div>
       </React.Fragment>
     );
   }
