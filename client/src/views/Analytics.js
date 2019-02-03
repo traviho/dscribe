@@ -7,6 +7,20 @@ import LineWithTitle from '../charts/LineWithTitle.js';
 import BubbleWithTitle from '../charts/BubbleWithTitle.js';
 
 class Analytics extends Component {
+
+  /*
+    meeting {
+      name: "",
+      value: 0,
+      date: "",
+    }
+
+    user {
+      username: "",
+      value: 0,
+    }
+  */
+
   state = {
     wordFrequencyData: {
         labels: ['Sprout', 'Hentai', 'Django', 'Scribe'],
@@ -88,7 +102,14 @@ class Analytics extends Component {
     //   },
       selectedMeeting: null,
       selectedPerson: null,
+      meetings: [],
+      users: [],
   };
+
+  componentDidMount() {
+    this.populateUsers();
+    this.populateMeetings();
+  }
 
   handlePersonSelectChange = (selectedPerson) => {
     this.setState({ selectedPerson: selectedPerson });
@@ -96,6 +117,51 @@ class Analytics extends Component {
 
   handleMeetingSelectChange = (selectedMeeting) => {
     this.setState({ selectedMeeting: selectedMeeting });
+  }
+
+  populateUsers = async() => {
+    // value: userJSON.url.replace( /^\D+/g, '')
+    const response = await fetch("http://localhost:8000/users/");
+    const body = await response.json();
+    const users = body.map((userJSON, index) => {
+      return {
+        username: userJSON.username,
+        value: body.length - index,
+      };
+    });
+    this.setState({users})
+  }
+
+  populateMeetings = async() => {
+    const response = await fetch("http://localhost:8000/meeting/");
+    const body = await response.json();
+    const meetings = body.map(meetingJSON => {
+      return {
+        name: meetingJSON.name,
+        value: meetingJSON.meeting_id,
+        date: meetingJSON.date,
+      };
+    });
+    console.log(meetings);
+    this.setState({meetings})
+  }
+
+  getSelectionFromUsersState() {
+    return this.state.users.map(userObj => {
+      return {
+        value: userObj.value,
+        label: userObj.username
+      }
+    })
+  }
+
+  getSelectionFromMeetingState() {
+    return this.state.meetings.map(meetingObj => {
+      return {
+        value: meetingObj.value,
+        label: meetingObj.name + meetingObj.date
+      }
+    })
   }
 
   render() {
@@ -110,12 +176,7 @@ class Analytics extends Component {
             value={this.state.selectedPerson}
             onChange={this.handlePersonSelectChange}
             isMulti={true}
-            options={[
-                { value: 'Richard', label: 'Richard' },
-                { value: 'Wilson', label: 'Wilson' },
-                { value: 'Calvin', label: 'Calvin' },
-                { value: 'Travis', label: 'Travis' }
-            ]}
+            options={this.getSelectionFromUsersState()}
             placeholder="Enter person(s)"
           />
         </div>
@@ -124,11 +185,7 @@ class Analytics extends Component {
               value={this.state.selectedMeeting}
               onChange={this.handleMeetingSelectChange}
               isMulti={true}
-              options={[
-                  { value: 'Meeting 2/1/17 5pm', label: 'Meeting 2/1/17 5pm' },
-                  { value: 'Meeting 1/12/17 2pm', label: 'Meeting 1/12/17 2pm' },
-                  { value: 'Meeting 2/1/16 5pm', label: 'Meeting 2/1/16 5pm' }
-              ]}
+              options={this.getSelectionFromMeetingState()}
               placeholder="Enter meeting(s)"
           />
         </div>
