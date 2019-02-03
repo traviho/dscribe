@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from .models import Meeting, Attendee, Profile, Sentence
+from .models import Meeting, Attendee, Sentence
 from rest_framework import serializers
 
 
@@ -23,11 +23,6 @@ class AttendeeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Attendee
         fields = ('url', 'user', 'meeting', 'text', 'key_text', 'word_count', 'key_word_count', 'sentiment_score', 'sentiment_magnitude', 'num_questions')
-
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('url', 'user')
 
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

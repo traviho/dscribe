@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 from django.contrib.auth.models import User, Group
-from .models import Meeting, Attendee, Profile, Sentence
+from .models import Meeting, Attendee, Sentence
 from rest_framework import viewsets
-from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, ProfileSerializer, SentenceSerializer
+from serverapp.serializers import UserSerializer, GroupSerializer, MeetingSerializer, AttendeeSerializer, SentenceSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,13 +27,6 @@ class MeetingViewSet(viewsets.ModelViewSet):
     """
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows profiles to be viewed or edited
-    """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
 
 class AttendeeViewSet(viewsets.ModelViewSet):
     """
@@ -61,7 +54,7 @@ class SentenceViewSet(viewsets.ModelViewSet):
     API endpoint that allows sentences to be viewed or changed
     """
 
-    serializer_class =  SentenceSerializer
+    serializer_class = SentenceSerializer
 
     def get_queryset(self):
         queryset = Sentence.objects.all()
