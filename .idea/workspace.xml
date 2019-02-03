@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4856f85-71da-46aa-98a9-cebf5b8b9d9c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/charts/Bar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/charts/Bubble.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/charts/Line.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/charts/Pie.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/views/Analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/views/Analytics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/serverapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/serverapp/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/serverapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/serverapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/serverapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/serverapp/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,29 +25,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/db.sqlite3">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/serverapp/views.py">
+        <entry file="file://$PROJECT_DIR$/server/serverapp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
+            <state relative-caret-position="171">
+              <caret line="38" column="66" lean-forward="true" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="66" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/serverapp/models.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/serverapp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="30" lean-forward="true" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+            <state relative-caret-position="89">
+              <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/serverapp/admin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="32" selection-start-column="32" selection-end-column="32" />
+              <caret column="32" lean-forward="true" selection-start-column="32" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -112,8 +97,8 @@
         <option value="$PROJECT_DIR$/server/serverapp/models.py" />
         <option value="$PROJECT_DIR$/server/server/urls.py" />
         <option value="$PROJECT_DIR$/server/serverapp/serializers.py" />
-        <option value="$PROJECT_DIR$/server/serverapp/views.py" />
         <option value="$PROJECT_DIR$/server/serverapp/admin.py" />
+        <option value="$PROJECT_DIR$/server/serverapp/views.py" />
       </list>
     </option>
   </component>
@@ -277,9 +262,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/db.sqlite3">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/serverapp/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -290,30 +272,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/serverapp/views.py">
+    <entry file="file://$PROJECT_DIR$/server/serverapp/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="32" lean-forward="true" selection-start-column="32" selection-end-column="32" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/db.sqlite3">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/serverapp/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="30" lean-forward="true" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+        <state relative-caret-position="171">
+          <caret line="38" column="66" lean-forward="true" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="66" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/serverapp/admin.py">
+    <entry file="file://$PROJECT_DIR$/server/serverapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="32" selection-start-column="32" selection-end-column="32" />
+        <state relative-caret-position="89">
+          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

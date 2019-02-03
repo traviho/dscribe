@@ -47,7 +47,6 @@ class AttendeeViewSet(viewsets.ModelViewSet):
         target_user = self.request.query_params.get('user', None)
         target_meeting = self.request.query_params.get('meeting', None)
 
-        print(target_meeting)
         if target_user is not None:
             queryset = queryset.filter(user = target_user)
 
@@ -61,5 +60,15 @@ class SentenceViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows sentences to be viewed or changed
     """
-    queryset = Sentence.objects.all()
+
     serializer_class =  SentenceSerializer
+
+    def get_queryset(self):
+        queryset = Sentence.objects.all()
+        target_attendee = self.request.query_params.get('attendee', None)
+
+        if target_attendee is not None:
+            queryset = queryset.filter(attendee = target_attendee)
+
+        return queryset
+
