@@ -40,6 +40,7 @@ class MeetingSerializer(serializers.HyperlinkedModelSerializer):
 
         return {
             'name': meeting.name,
+            'meeting_id': meeting.id,
             'text': meeting.text,
             'text_dict': text_dict,
             'key_text': meeting.key_text,
