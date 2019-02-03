@@ -12,6 +12,7 @@ class Meeting(models.Model):
   description = models.TextField()
   text = models.TextField()
   key_text = models.TextField()
+
   word_count = models.PositiveSmallIntegerField()
   key_word_count = models.PositiveSmallIntegerField()
   sentiment_score = models.DecimalField(max_digits = 2, decimal_places = 1)
@@ -30,7 +31,7 @@ class Meeting(models.Model):
   category = models.CharField(choices = MEETING_CATEGORIES, max_length = 200)
 
 class Attendee(models.Model):
-  profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
   text = models.TextField()
   key_text = models.TextField()
