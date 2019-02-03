@@ -34,7 +34,6 @@ class MeetingSerializer(serializers.HyperlinkedModelSerializer):
 
         attendees = Attendee.objects.all()
         for attendee in attendees:
-            print(attendee.pk)
             if attendee.pk == meeting.id:
                 attendee_ids.append(attendee.id)
 

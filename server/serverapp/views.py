@@ -26,6 +26,10 @@ from django.http import HttpResponse
 
 
 def pipeline(speech_file):
+    # Meeting.objects.all().delete()
+    # Attendee.objects.all().delete()
+    # Sentence.objects.all().delete()
+
     speech_client = speech.SpeechClient()
     language_client = language.LanguageServiceClient()
 
@@ -33,15 +37,13 @@ def pipeline(speech_file):
     ### read the audio file ###
     ###########################
 
-    # speech_file = 'voice.flac'
-    #with io.open(speech_file, 'rb') as audio_file:
-    #    content = audio_file.read()
-
     content = speech_file.read()
 
     ###########################################
     ### annotate sentences with punctuation ###
     ###########################################
+
+    nltk.download('stopwords')
 
     audio = speech.types.RecognitionAudio(content=content)
     punc_config = speech.types.RecognitionConfig(
@@ -173,8 +175,6 @@ def pipeline(speech_file):
                                            num_questions=0)
         attendee.save()
 
-        nltk.download('stopwords')
-
         attendee_data = {
             'text': "",
             'key_text': "",
@@ -187,13 +187,11 @@ def pipeline(speech_file):
             num_words = len(no_punc.split(" "))
             key_words = [word for word in no_punc.split(" ") if word not in stopwords.words('english')]
 
-            print(attendee_data['text'])
-            print(attendee_sentence)
             attendee_data['text'] = attendee_data['text'] + " " + attendee_sentence
             attendee_data['key_text'] = attendee_data['key_text'] + ' '.join(word for word in key_words)
 
             meeting_data['text'] = meeting_data['text'] + " " + attendee_sentence
-            meeting_data['key_text'] = meeting_data['key_text'] + ' '.join(word for word in key_words)
+            meeting_data['key_text'] = meeting_data['key_text'] + " " + ' '.join(word for word in key_words)
 
             #####################################
             ### sentiment analysis (sentence) ###
@@ -226,7 +224,7 @@ def pipeline(speech_file):
                                                begin_offset=0)
 
         attendee.text = attendee_data['text']
-        attendee.key_text = ' '.join(word for word in attendee_data['key_text'])
+        attendee.key_text = attendee_data['key_text']
         attendee.word_count = len(re.sub(r'[^\w\s]','', attendee_data['text']))
         attendee.key_word_count = len(attendee_data['key_text'])
 
@@ -251,7 +249,7 @@ def pipeline(speech_file):
         attendee.save()
 
     meeting.text = meeting_data['text']
-    meeting.key_text = ' '.join(word for word in meeting_data['key_text'])
+    meeting.key_text = meeting_data['key_text']
     meeting.word_count = len(re.sub(r'[^\w\s]','', meeting_data['text']))
     meeting.key_word_count = len(meeting_data['key_text'])
 
@@ -378,11 +376,13 @@ class SentenceViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-# @ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def upload(request):
     if request.method == 'POST':
-        #pipeline("C:/Users/calvi/Desktop/dscribe/server/serverapp/voice.flac")
-        pipeline(request.FILES['audio'])
+        try:
+            pipeline(request.FILES['audio'])
+            return HttpResponse(status=204)
+        except:
+            return HttpResponse(status=400)
     return HttpResponse(status=204)
