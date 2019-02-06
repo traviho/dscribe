@@ -3,45 +3,40 @@ import '../App.css'
 import axios from 'axios';
 
 class Upload extends Component {
-  // state = {
-  //   selectedFile: null
-  // }
-
-  // handleSelectFile = (file) => {
-  //   this.setState({ selectedFile: file });
-  // }
-  //
-  // handleUpload = () => {
-  //   const upload = new FormData()
-  //   const endpoint = "/audio"
-  //
-  //   upload.append('file', this.state.selectedFile, this.state.selectedFile.name)
-  //   axios.post(endpoint, upload);
-  // }
   constructor(props) {
     super(props);
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch('/audio').then(() => this.props.screenHandler('analytics'));
+    var formData = new FormData();
+    var audiofile = document.querySelector('#afile');
+    formData.append("audio", audiofile.files[0]);
+    axios.post('/audio',
+               formData,
+               {headers: {'Content-Type': 'multipart/form-data'}}).then(() => this.props.screenHandler('analytics'));
   }
 
   render() {
     return (
       <React.Fragment>
-         <form onSubmit={this.handleSubmit}>
-            <div className="file-field input-field">
-              <div className="btn">
-                <span>Select File</span>
-                <input type="file" name="audio" accept="audio/*" />
-              </div>
-              <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-              </div>
-            </div>
-            <input className='btn-large' type="submit" name="submit" value="upload" />
-        </form>
+        <br></br>
+        <div className="row">
+          <div className="col l6 offset-l3 s12">
+             <form onSubmit={this.handleSubmit}>
+                <div className="file-field input-field">
+                  <div className="btn">
+                    <span>Select File</span>
+                    <input type="file" name="audio" accept="audio/*" id="afile" />
+                  </div>
+                  <div className="file-path-wrapper">
+                    <input className="file-path validate" type="text" />
+                  </div>
+                </div>
+                <input className='btn-large' type="submit" name="submit" value="upload" />
+            </form>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

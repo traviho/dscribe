@@ -4,21 +4,20 @@ import './libraries/materialize.min.css';
 
 import Header from './components/Header.js'
 
-import record from './images/record.png';
 import Record from './views/Record';
-import upload from './images/upload.png';
 import Upload from './views/Upload';
-import analytics from './images/analytics.png';
 import Analytics from './views/Analytics';
+
+import record from './images/record.png';
+import upload from './images/upload.png';
+import analytics from './images/analytics.png';
 
 class App extends Component {
   state = {
     screen: "home"
   };
 
-  componentDidMount() {
-    // Call our fetch function below once the component mounts
-  }
+  componentDidMount() {}
 
   changeScreen = (sStr) => {
     this.setState({screen: sStr});
