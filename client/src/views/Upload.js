@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css'
 import axios from 'axios';
-import CSRFToken from './csrftoken';
 
 class Upload extends Component {
   // state = {

@@ -3,6 +3,7 @@ import io
 import re
 import operator
 import six
+import json
 
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import language
@@ -274,6 +275,33 @@ def pipeline(speech_file):
     meeting.num_questions = meeting_data['num_questions']
 
     meeting.save()
+
+class get_speaker_percentage(APIView):
+    def get(self, request):
+        queryset = Attendee.objects.all()
+        target_user = self.request.query_params.get('user', None)
+
+        target_meeting = self.request.query_params.get('meeting', None)
+
+        if target_user is not None:
+            target_user = target_user.split(',')
+            queryset = queryset.filter(user__in = target_user)
+
+        if target_meeting is not None:
+            target_meeting = target_meeting.split(',')
+            print(target_meeting)
+            queryset = queryset.filter(meeting__in = target_meeting)
+        
+        # total_words_all_meetings = 0
+        # meeting_visited_set = set()
+        user_word_count_dict = {}
+        for attendee in queryset:
+            # if (not attendee.meeting in meeting_visited_set):
+            #     total_words_all_meetings += attendee.meeting.word_count
+            #     meeting_visited_set.add(attendee.meeting)
+            user_word_count_dict[attendee.user.username] = user_word_count_dict.get(attendee.user.username, 0) + attendee.word_count
+        
+        return HttpResponse(json.dumps(user_word_count_dict))
 
 class UserViewSet(viewsets.ModelViewSet):
     """
