@@ -1,27 +1,13 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import {getColorUtil} from '../utils/GetColorUtil.js';
+import {getParamSplitter, nullOrEmpty} from '../utils/GetParamSplitter';
 import BarWithTitle from '../charts/BarWithStyles.js';
 import PieWithStyles from '../charts/PieWithStyles.js';
 import LineWithTitle from '../charts/LineWithTitle.js';
 import BubbleWithTitle from '../charts/BubbleWithTitle.js';
 
 class Analytics extends Component {
-
-  /*
-    meeting {
-      name: "",
-      value: 0,
-      date: "",
-      key_word_dict: {}
-    }
-
-    user {
-      username: "",
-      value: 0,
-    }
-  */
-
   state = {
     wordFrequencyData: {
         labels: ['Sprout', 'Hentai', 'Django', 'Scribe'],
@@ -52,12 +38,12 @@ class Analytics extends Component {
 
   handlePersonSelectChange = (selectedPerson) => {
     console.log(selectedPerson);
-    this.setState({ selectedPerson: selectedPerson });
+    this.setState({ selectedPerson: selectedPerson }, () => this.getSpeakerPercentageData() );
   }
 
   handleMeetingSelectChange = (selectedMeeting) => {
     console.log(selectedMeeting);
-    this.setState({ selectedMeeting: selectedMeeting });
+    this.setState({ selectedMeeting: selectedMeeting }, () => this.getSpeakerPercentageData() );
   }
 
   populateUsers = async() => {
@@ -84,13 +70,32 @@ class Analytics extends Component {
         key_word_dict: meetingJSON.key_word_dict,
       };
     });
-    console.log(meetings);
     this.setState({meetings})
   }
 
   getSpeakerPercentageData = async() => {
-    const response = await fetch(`http://localhost:8000/get-speaker-percentage?user=${1}&meeting=${1}`);
-    const body = await response.json();
+    let params = ""
+    if (!nullOrEmpty(this.state.selectedPerson) && nullOrEmpty(this.state.selectedMeeting)) {
+      params = `?user=${getParamSplitter(this.state.selectedPerson)}`
+    } else if (nullOrEmpty(this.state.selectedPerson) && !nullOrEmpty(this.state.selectedMeeting)) {
+      // console.log(this.state.selectedMeeting)
+      params = `?meeting=${getParamSplitter(this.state.selectedMeeting)}`
+    } else if (!nullOrEmpty(this.state.selectedPerson) && !nullOrEmpty(this.state.selectedMeeting)) {
+      params = `?user=${getParamSplitter(this.state.selectedPerson)}&meeting=${getParamSplitter(this.state.selectedMeeting)}`
+    }
+    // console.log(params);
+    const response = await fetch(`http://localhost:8000/get-speaker-percentage${params}`);
+    // console.log(response)
+    let body = {}
+    try {
+      body = await response.json();
+    } catch (err) {
+      alert(err);
+      return;
+    }
+    if (body == null || body == undefined || Object.keys(body).length === 0) {
+      return;
+    }
     const labels = Object.keys(body);
     //labels.push('fake', 'data');
     const values = Object.values(body);
@@ -98,7 +103,7 @@ class Analytics extends Component {
     const sumReducer = (acc, i) => acc + i;
     const totalWords = values.reduce(sumReducer);
     const data = values.map(val => val / totalWords);
-    
+    console.log(this.state.speakerPercentageData)
     this.setState({speakerPercentageData: {
       labels,
       datasets: [{data,}],
@@ -171,11 +176,11 @@ class Analytics extends Component {
           </div>
         </div>
         <br />
-        <div className="row">
+        {/* <div className="row">
           <div className="col l8 offset-l2 s12">
             <BarWithTitle data={this.getAggregateKeywordFrequencyFromMeetings()} title="Keyword Frequency" />
           </div>
-        </div>
+        </div> */}
         <br />
         <div className="row">
           <div className="col l8 offset-l2 s12">
